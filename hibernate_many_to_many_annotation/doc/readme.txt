@@ -8,7 +8,7 @@ http://www.mkyong.com/maven/how-to-add-oracle-jdbc-driver-in-your-maven-local-re
 join many to many tables
 
 select * 
-from stock left outer join (stock_category join category on (stock_category.category_id = category.category_id))
+from stock left outer join (stock_category join category on stock_category.category_id = category.category_id)
 using (stock_id)
 
 http://stackoverflow.com/questions/372399/how-do-you-do-many-to-many-table-outer-joins
