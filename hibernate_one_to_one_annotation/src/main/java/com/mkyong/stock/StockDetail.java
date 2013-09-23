@@ -1,6 +1,8 @@
 package com.mkyong.stock;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -18,13 +21,21 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "stock_detail")
 public class StockDetail implements java.io.Serializable {
 
-	private Integer stockId;
+	private Long stockId;
 	private Stock stock;
 	private String compName;
 	private String compDesc;
 	private String remark;
 	private Date listedDate;
 
+	public String toString() {
+		return "stockId: " + stockId + 
+				", compName: " + compName + 
+				", compDesc: " + compDesc + 
+				", remark: " + remark + 
+				", listedDate: " + new SimpleDateFormat("yyyy-MM-dd").format(listedDate);
+	}
+	
 	public StockDetail() {
 	}
 
@@ -37,15 +48,15 @@ public class StockDetail implements java.io.Serializable {
 		this.listedDate = listedDate;
 	}
 
-	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "stock"))
 	@Id
-	@GeneratedValue(generator = "generator")
 	@Column(name = "STOCK_ID", unique = true, nullable = false)
-	public Integer getStockId() {
+	@GeneratedValue(generator = "generator")	
+	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "stock"))
+	public Long getStockId() {
 		return this.stockId;
 	}
 
-	public void setStockId(Integer stockId) {
+	public void setStockId(Long stockId) {
 		this.stockId = stockId;
 	}
 
