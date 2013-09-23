@@ -17,19 +17,24 @@ public class App {
 
 		Stock stock = new Stock();
 
-		stock.setStockId(1);
-		stock.setStockCode("7052");
-		stock.setStockName("PADINI");
+		stock.setStockId(HibernateUtil.getNext(session));
+		stock.setStockCode("100");
+		stock.setStockName("GOOG");
+		
+		System.out.println(stock);
 
 		StockDetail stockDetail = new StockDetail();
 		stockDetail.setCompName("PADINI Holding Malaysia");
 		stockDetail.setCompDesc("one stop shopping");
 		stockDetail.setRemark("vinci vinci");
 		stockDetail.setListedDate(new Date());
-
+		
 		stock.setStockDetail(stockDetail);
 		stockDetail.setStock(stock);
 
+		System.out.println(stockDetail);
+		System.out.println(stock);
+		
 		session.save(stock);
 		session.getTransaction().commit();
 
