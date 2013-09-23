@@ -5,9 +5,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -17,7 +19,7 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "STOCK_CODE") })
 public class Stock implements java.io.Serializable {
 
-	private Integer stockId;
+	private Long stockId;
 	private String stockCode;
 	private String stockName;
 	private StockDetail stockDetail;
@@ -37,13 +39,14 @@ public class Stock implements java.io.Serializable {
 	}
 
 	@Id
-//	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "STOCK_SEQ")
+	@SequenceGenerator(name="STOCK_SEQ", sequenceName = "STOCK_SEQ")
 	@Column(name = "STOCK_ID", unique = true, nullable = false)
-	public Integer getStockId() {
+	public Long getStockId() {
 		return this.stockId;
 	}
 
-	public void setStockId(Integer stockId) {
+	public void setStockId(Long stockId) {
 		this.stockId = stockId;
 	}
 
@@ -73,5 +76,8 @@ public class Stock implements java.io.Serializable {
 	public void setStockDetail(StockDetail stockDetail) {
 		this.stockDetail = stockDetail;
 	}
-
+	
+	public String toString() {
+		return "stockId: " + stockId + ", stockCode: " + stockCode + ", stockName: " + stockName;
+	}
 }
