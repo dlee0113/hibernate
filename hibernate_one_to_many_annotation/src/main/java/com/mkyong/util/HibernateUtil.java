@@ -1,7 +1,5 @@
 package com.mkyong.util;
  
-import java.math.BigInteger;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,19 +30,19 @@ public class HibernateUtil {
 		getSessionFactory().close();
 	}
 
-	public static Long getNextStockSequenceNumber(Session session){
+	public static Integer getNextStockSequenceNumber(Session session){
 	    Query query = 
 	        session.createSQLQuery("select STOCK_SEQ.nextval as num from dual")
-	        .addScalar("num", StandardBasicTypes.BIG_INTEGER);
+	        .addScalar("num", StandardBasicTypes.INTEGER);
 
-	    return ((BigInteger) query.uniqueResult()).longValue();
+	    return ((Integer) query.uniqueResult()).intValue();
 	}
 	
-	public static Long getNextStockDailyRecordSequenceNumber(Session session){
+	public static Integer getNextStockDailyRecordSequenceNumber(Session session){
 	    Query query = 
 	        session.createSQLQuery("select STOCK_DAILY_RECORD_SEQ.nextval as num from dual")
-	        .addScalar("num", StandardBasicTypes.BIG_INTEGER);
+	        .addScalar("num", StandardBasicTypes.INTEGER);
 
-	    return ((BigInteger) query.uniqueResult()).longValue();
+	    return ((Integer) query.uniqueResult()).intValue();
 	}
 }
