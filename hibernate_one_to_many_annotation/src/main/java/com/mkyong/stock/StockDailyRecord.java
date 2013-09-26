@@ -20,12 +20,29 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "stock_daily_record", uniqueConstraints = @UniqueConstraint(columnNames = "STOCK_DATE"))
 public class StockDailyRecord implements java.io.Serializable {
 
-	private Integer recordId;
+	@Id
+//	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "RECORD_ID", unique = true, nullable = false)
+	private Long recordId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "STOCK_ID", nullable = false)	
 	private Stock stock;
+	
+	@Column(name = "PRICE_OPEN", precision = 6)	
 	private Float priceOpen;
+	
+	@Column(name = "PRICE_CLOSE", precision = 6)	
 	private Float priceClose;
+	
+	@Column(name = "PRICE_CHANGE", precision = 6)
 	private Float priceChange;
+	
+	@Column(name = "VOLUME")	
 	private Long volume;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "STOCK_DATE", unique = true, nullable = false, length = 10)
 	private Date date;
 
 	public StockDailyRecord() {
@@ -46,19 +63,14 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.date = date;
 	}
 
-	@Id
-//	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "RECORD_ID", unique = true, nullable = false)
-	public Integer getRecordId() {
+	public Long getRecordId() {
 		return this.recordId;
 	}
 
-	public void setRecordId(Integer recordId) {
+	public void setRecordId(Long recordId) {
 		this.recordId = recordId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "STOCK_ID", nullable = false)
 	public Stock getStock() {
 		return this.stock;
 	}
@@ -67,7 +79,6 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.stock = stock;
 	}
 
-	@Column(name = "PRICE_OPEN", precision = 6)
 	public Float getPriceOpen() {
 		return this.priceOpen;
 	}
@@ -76,7 +87,6 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.priceOpen = priceOpen;
 	}
 
-	@Column(name = "PRICE_CLOSE", precision = 6)
 	public Float getPriceClose() {
 		return this.priceClose;
 	}
@@ -85,7 +95,6 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.priceClose = priceClose;
 	}
 
-	@Column(name = "PRICE_CHANGE", precision = 6)
 	public Float getPriceChange() {
 		return this.priceChange;
 	}
@@ -94,7 +103,6 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.priceChange = priceChange;
 	}
 
-	@Column(name = "VOLUME")
 	public Long getVolume() {
 		return this.volume;
 	}
@@ -103,8 +111,6 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.volume = volume;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "STOCK_DATE", unique = true, nullable = false, length = 10)
 	public Date getDate() {
 		return this.date;
 	}

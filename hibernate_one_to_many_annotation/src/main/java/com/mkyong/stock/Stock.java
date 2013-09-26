@@ -18,11 +18,19 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "STOCK_CODE") })
 public class Stock implements java.io.Serializable {
 
-	private Integer stockId;
+	@Id
+//	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "STOCK_ID", unique = true, nullable = false)
+	private Long stockId;
+	
+	@Column(name = "STOCK_CODE", unique = true, nullable = false, length = 10)	
 	private String stockCode;
+	
+	@Column(name = "STOCK_NAME", unique = true, nullable = false, length = 20)	
 	private String stockName;
-	private Set<StockDailyRecord> stockDailyRecords = new HashSet<StockDailyRecord>(
-			0);
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")	
+	private Set<StockDailyRecord> stockDailyRecords = new HashSet<StockDailyRecord>(0);
 
 	public Stock() {
 	}
@@ -39,18 +47,14 @@ public class Stock implements java.io.Serializable {
 		this.stockDailyRecords = stockDailyRecords;
 	}
 
-	@Id
-//	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "STOCK_ID", unique = true, nullable = false)
-	public Integer getStockId() {
+	public Long getStockId() {
 		return this.stockId;
 	}
 
-	public void setStockId(Integer stockId) {
+	public void setStockId(Long stockId) {
 		this.stockId = stockId;
 	}
 
-	@Column(name = "STOCK_CODE", unique = true, nullable = false, length = 10)
 	public String getStockCode() {
 		return this.stockCode;
 	}
@@ -59,7 +63,6 @@ public class Stock implements java.io.Serializable {
 		this.stockCode = stockCode;
 	}
 
-	@Column(name = "STOCK_NAME", unique = true, nullable = false, length = 20)
 	public String getStockName() {
 		return this.stockName;
 	}
@@ -68,7 +71,6 @@ public class Stock implements java.io.Serializable {
 		this.stockName = stockName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")
 	public Set<StockDailyRecord> getStockDailyRecords() {
 		return this.stockDailyRecords;
 	}
