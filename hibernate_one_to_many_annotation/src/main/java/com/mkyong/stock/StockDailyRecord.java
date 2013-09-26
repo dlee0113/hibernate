@@ -2,6 +2,7 @@ package com.mkyong.stock;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class StockDailyRecord implements java.io.Serializable {
 	@Id
 //	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "RECORD_ID", unique = true, nullable = false)
-	private Long recordId;
+	private Integer recordId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STOCK_ID", nullable = false)	
@@ -63,11 +64,11 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.date = date;
 	}
 
-	public Long getRecordId() {
+	public Integer getRecordId() {
 		return this.recordId;
 	}
 
-	public void setRecordId(Long recordId) {
+	public void setRecordId(Integer recordId) {
 		this.recordId = recordId;
 	}
 
@@ -119,4 +120,12 @@ public class StockDailyRecord implements java.io.Serializable {
 		this.date = date;
 	}
 
+	public String toString() {
+		return "stock ID: " + stock.getStockId() + 
+				", priceOpen: " + priceOpen + 
+				", priceClose: " + priceClose + 
+				", priceChange: " + priceChange + 
+				", volume: " + volume + 
+				", date: " + new SimpleDateFormat("yyyy-MM-dd").format(date);
+	}
 }
