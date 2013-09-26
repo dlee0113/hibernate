@@ -1,7 +1,12 @@
 package com.mkyong.util;
  
+import java.math.BigInteger;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.type.StandardBasicTypes;
  
 public class HibernateUtil {
  
@@ -26,5 +31,20 @@ public class HibernateUtil {
 		// Close caches and connection pools
 		getSessionFactory().close();
 	}
- 
+
+	public static Long getNextStockSequenceNumber(Session session){
+	    Query query = 
+	        session.createSQLQuery("select STOCK_SEQ.nextval as num from dual")
+	        .addScalar("num", StandardBasicTypes.BIG_INTEGER);
+
+	    return ((BigInteger) query.uniqueResult()).longValue();
+	}
+	
+	public static Long getNextStockDailyRecordSequenceNumber(Session session){
+	    Query query = 
+	        session.createSQLQuery("select STOCK_DAILY_RECORD_SEQ.nextval as num from dual")
+	        .addScalar("num", StandardBasicTypes.BIG_INTEGER);
+
+	    return ((BigInteger) query.uniqueResult()).longValue();
+	}
 }
