@@ -19,9 +19,19 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "STOCK_CODE") })
 public class Stock implements java.io.Serializable {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "STOCK_SEQ")
+	@SequenceGenerator(name="STOCK_SEQ", sequenceName = "STOCK_SEQ")
+	@Column(name = "STOCK_ID", unique = true, nullable = false)
 	private Long stockId;
+	
+	@Column(name = "STOCK_CODE", unique = true, nullable = false, length = 10)
 	private String stockCode;
+	
+	@Column(name = "STOCK_NAME", unique = true, nullable = false, length = 20)
 	private String stockName;
+	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "stock", cascade = CascadeType.ALL)
 	private StockDetail stockDetail;
 
 	public Stock() {
@@ -38,10 +48,6 @@ public class Stock implements java.io.Serializable {
 		this.stockDetail = stockDetail;
 	}
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "STOCK_SEQ")
-	@SequenceGenerator(name="STOCK_SEQ", sequenceName = "STOCK_SEQ")
-	@Column(name = "STOCK_ID", unique = true, nullable = false)
 	public Long getStockId() {
 		return this.stockId;
 	}
@@ -50,7 +56,7 @@ public class Stock implements java.io.Serializable {
 		this.stockId = stockId;
 	}
 
-	@Column(name = "STOCK_CODE", unique = true, nullable = false, length = 10)
+
 	public String getStockCode() {
 		return this.stockCode;
 	}
@@ -59,7 +65,6 @@ public class Stock implements java.io.Serializable {
 		this.stockCode = stockCode;
 	}
 
-	@Column(name = "STOCK_NAME", unique = true, nullable = false, length = 20)
 	public String getStockName() {
 		return this.stockName;
 	}
@@ -68,7 +73,6 @@ public class Stock implements java.io.Serializable {
 		this.stockName = stockName;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "stock", cascade = CascadeType.ALL)
 	public StockDetail getStockDetail() {
 		return this.stockDetail;
 	}
@@ -78,6 +82,9 @@ public class Stock implements java.io.Serializable {
 	}
 	
 	public String toString() {
-		return "stockId: " + stockId + ", stockCode: " + stockCode + ", stockName: " + stockName;
+		return "stockId: " + stockId + 
+				", stockCode: " + stockCode + 
+				", stockName: " + stockName + 
+				", stockDetail: " + stockDetail;
 	}
 }

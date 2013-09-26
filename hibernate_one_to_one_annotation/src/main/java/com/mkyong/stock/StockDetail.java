@@ -20,23 +20,35 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "stock_detail")
 public class StockDetail implements java.io.Serializable {
-
+	@Id
+	@Column(name = "STOCK_ID", unique = true, nullable = false)
+	@GeneratedValue(generator = "generator")	
+	@GenericGenerator(
+			name = "generator", 
+			strategy = "foreign", 
+			parameters = @Parameter(name = "property", value = "stock")
+	)
 	private Long stockId;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn(name = "STOCK_ID", referencedColumnName = "STOCK_ID")
 	private Stock stock;
+	
+	@Column(name = "COMP_NAME", nullable = false, length = 100)
 	private String compName;
+	
+	@Column(name = "COMP_DESC", nullable = false)
 	private String compDesc;
+	
+	@Column(name = "REMARK", nullable = false)
 	private String remark;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "LISTED_DATE", nullable = false, length = 10)
 	private Date listedDate;
 
-	public String toString() {
-		return "stockId: " + stockId + 
-				", compName: " + compName + 
-				", compDesc: " + compDesc + 
-				", remark: " + remark + 
-				", listedDate: " + new SimpleDateFormat("yyyy-MM-dd").format(listedDate);
-	}
-	
 	public StockDetail() {
+		
 	}
 
 	public StockDetail(Stock stock, String compName, String compDesc,
@@ -48,10 +60,7 @@ public class StockDetail implements java.io.Serializable {
 		this.listedDate = listedDate;
 	}
 
-	@Id
-	@Column(name = "STOCK_ID", unique = true, nullable = false)
-	@GeneratedValue(generator = "generator")	
-	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "stock"))
+
 	public Long getStockId() {
 		return this.stockId;
 	}
@@ -60,8 +69,6 @@ public class StockDetail implements java.io.Serializable {
 		this.stockId = stockId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
 	public Stock getStock() {
 		return this.stock;
 	}
@@ -70,7 +77,6 @@ public class StockDetail implements java.io.Serializable {
 		this.stock = stock;
 	}
 
-	@Column(name = "COMP_NAME", nullable = false, length = 100)
 	public String getCompName() {
 		return this.compName;
 	}
@@ -79,7 +85,6 @@ public class StockDetail implements java.io.Serializable {
 		this.compName = compName;
 	}
 
-	@Column(name = "COMP_DESC", nullable = false)
 	public String getCompDesc() {
 		return this.compDesc;
 	}
@@ -88,7 +93,6 @@ public class StockDetail implements java.io.Serializable {
 		this.compDesc = compDesc;
 	}
 
-	@Column(name = "REMARK", nullable = false)
 	public String getRemark() {
 		return this.remark;
 	}
@@ -97,8 +101,6 @@ public class StockDetail implements java.io.Serializable {
 		this.remark = remark;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "LISTED_DATE", nullable = false, length = 10)
 	public Date getListedDate() {
 		return this.listedDate;
 	}
@@ -107,4 +109,11 @@ public class StockDetail implements java.io.Serializable {
 		this.listedDate = listedDate;
 	}
 
+	public String toString() {
+		return "stockId: " + stockId + 
+				", compName: " + compName + 
+				", compDesc: " + compDesc + 
+				", remark: " + remark + 
+				", listedDate: " + new SimpleDateFormat("yyyy-MM-dd").format(listedDate);
+	}
 }
