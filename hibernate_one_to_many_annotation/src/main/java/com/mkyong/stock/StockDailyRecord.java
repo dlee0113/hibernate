@@ -1,14 +1,11 @@
 package com.mkyong.stock;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +19,6 @@ import javax.persistence.UniqueConstraint;
 public class StockDailyRecord implements java.io.Serializable {
 
 	@Id
-//	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "RECORD_ID", unique = true, nullable = false)
 	private Integer recordId;
 	
