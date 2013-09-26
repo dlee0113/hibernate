@@ -15,3 +15,11 @@ CREATE TABLE STOCK_DETAIL (
 	LISTED_DATE	DATE			NOT NULL,
 	CONSTRAINT FK_STOCK_ID FOREIGN KEY (STOCK_ID) REFERENCES STOCK(STOCK_ID)
 );
+
+CREATE SEQUENCE STOCK_SEQ
+	MINVALUE 1
+	START WITH 1
+	INCREMENT BY 1
+	CACHE 20;
+
+-- no neeed to commit since Oracle Database issues an implicit COMMIT before and after any data definition language (DDL) statement.
