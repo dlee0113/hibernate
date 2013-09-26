@@ -2,8 +2,9 @@ package com.mkyong;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.mkyong.stock.Stock;
@@ -11,8 +12,11 @@ import com.mkyong.stock.StockDailyRecord;
 import com.mkyong.util.HibernateUtil;
 
 public class App {
+	private static Logger log = Logger.getLogger(App.class);
+	
 	public static void main(String[] args) throws ParseException {
-		System.out.println("Hibernate one to many (Annotation)");
+		log.info("Hibernate one to many (Annotation)");
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		session.beginTransaction();
@@ -21,6 +25,8 @@ public class App {
 		stock.setStockId(HibernateUtil.getNextStockSequenceNumber(session));;
         stock.setStockCode("7052");
         stock.setStockName("PADINI");
+        
+        log.info("stock - " + stock);
         session.save(stock);
         
         StockDailyRecord stockDailyRecord1 = new StockDailyRecord();
@@ -34,6 +40,7 @@ public class App {
         stockDailyRecord1.setStock(stock);        
         stock.getStockDailyRecords().add(stockDailyRecord1);
 
+        log.info("stockDailyRecord1 - " + stockDailyRecord1);
         session.save(stockDailyRecord1);
         
         StockDailyRecord stockDailyRecord2 = new StockDailyRecord();
@@ -47,9 +54,25 @@ public class App {
         stockDailyRecord2.setStock(stock);        
         stock.getStockDailyRecords().add(stockDailyRecord2);
 
+        log.info("stockDailyRecord2 - " + stockDailyRecord2);
         session.save(stockDailyRecord2);
 
 		session.getTransaction().commit();
-		System.out.println("Done");
+		
+		session.beginTransaction();
+
+		List<Stock> stockList = session.createQuery("from Stock").list();
+		for (Stock s: stockList) {
+			log.info("stock - " + s);
+		}
+		
+		List<StockDailyRecord> stockDetailRecordList =  session.createQuery("from StockDailyRecord").list();
+		for (StockDailyRecord sdr: stockDetailRecordList) {
+			log.info("stockDailyRecord - " + sdr);
+		}
+		
+		session.close();
+		
+		log.info("Done");
 	}
 }
