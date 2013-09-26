@@ -2,11 +2,14 @@ package com.mkyong.stock;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,7 +24,7 @@ public class Stock implements java.io.Serializable {
 	@Id
 //	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "STOCK_ID", unique = true, nullable = false)
-	private Long stockId;
+	private Integer stockId;
 	
 	@Column(name = "STOCK_CODE", unique = true, nullable = false, length = 10)	
 	private String stockCode;
@@ -47,11 +50,11 @@ public class Stock implements java.io.Serializable {
 		this.stockDailyRecords = stockDailyRecords;
 	}
 
-	public Long getStockId() {
+	public Integer getStockId() {
 		return this.stockId;
 	}
 
-	public void setStockId(Long stockId) {
+	public void setStockId(Integer stockId) {
 		this.stockId = stockId;
 	}
 
@@ -79,4 +82,10 @@ public class Stock implements java.io.Serializable {
 		this.stockDailyRecords = stockDailyRecords;
 	}
 
+	public String toString() {
+		return "stockId: " + stockId + 
+				", stockCode: " + stockCode + 
+				", stockName: " + stockName + 
+				", stockDailyRecords: " + stockDailyRecords;
+	}
 }
