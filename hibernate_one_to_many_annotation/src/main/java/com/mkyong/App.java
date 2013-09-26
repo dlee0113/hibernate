@@ -18,13 +18,13 @@ public class App {
 		session.beginTransaction();
 
 		Stock stock = new Stock();
-		stock.setStockId(1);
+		stock.setStockId(HibernateUtil.getNextStockSequenceNumber(session));;
         stock.setStockCode("7052");
         stock.setStockName("PADINI");
         session.save(stock);
         
         StockDailyRecord stockDailyRecord1 = new StockDailyRecord();
-        stockDailyRecord1.setRecordId(1);
+        stockDailyRecord1.setRecordId(HibernateUtil.getNextStockDailyRecordSequenceNumber(session));
         stockDailyRecord1.setPriceOpen(new Float("1.2"));
         stockDailyRecord1.setPriceClose(new Float("1.1"));
         stockDailyRecord1.setPriceChange(new Float("10.0"));
@@ -37,7 +37,7 @@ public class App {
         session.save(stockDailyRecord1);
         
         StockDailyRecord stockDailyRecord2 = new StockDailyRecord();
-        stockDailyRecord2.setRecordId(2);
+        stockDailyRecord2.setRecordId(HibernateUtil.getNextStockDailyRecordSequenceNumber(session));
         stockDailyRecord2.setPriceOpen(new Float("2.2"));
         stockDailyRecord2.setPriceClose(new Float("2.1"));
         stockDailyRecord2.setPriceChange(new Float("20.0"));
