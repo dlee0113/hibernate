@@ -15,12 +15,12 @@ public class App {
 		session.beginTransaction();
 
 		Stock stock = new Stock();
-		stock.setStockId(1);
+		stock.setStockId(HibernateUtil.getNextStockSequenceNumber(session));
         stock.setStockCode("7052");
         stock.setStockName("PADINI");
  
-        Category category1 = new Category(1, "CONSUMER", "CONSUMER COMPANY");
-        Category category2 = new Category(2, "INVESTMENT", "INVESTMENT COMPANY");
+        Category category1 = new Category(HibernateUtil.getNextCategorySequenceNumber(session), "CONSUMER", "CONSUMER COMPANY");
+        Category category2 = new Category(HibernateUtil.getNextCategorySequenceNumber(session), "INVESTMENT", "INVESTMENT COMPANY");
     
         Set<Category> categories = new HashSet<Category>();
         categories.add(category1);
