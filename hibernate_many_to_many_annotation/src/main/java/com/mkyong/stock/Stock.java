@@ -22,9 +22,22 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "STOCK_CODE") })
 public class Stock implements java.io.Serializable {
 
+	@Id
+//	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "STOCK_ID", unique = true, nullable = false)
 	private Integer stockId;
+	
+	@Column(name = "STOCK_CODE", unique = true, nullable = false, length = 10)	
 	private String stockCode;
+	
+	@Column(name = "STOCK_NAME", unique = true, nullable = false, length = 20)	
 	private String stockName;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "stock_category", joinColumns = { 
+			@JoinColumn(name = "STOCK_ID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID", 
+					nullable = false, updatable = false) })	
 	private Set<Category> categories = new HashSet<Category>(0);
 
 	public Stock() {
@@ -41,9 +54,6 @@ public class Stock implements java.io.Serializable {
 		this.categories = categories;
 	}
 
-	@Id
-//	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "STOCK_ID", unique = true, nullable = false)
 	public Integer getStockId() {
 		return this.stockId;
 	}
@@ -52,7 +62,6 @@ public class Stock implements java.io.Serializable {
 		this.stockId = stockId;
 	}
 
-	@Column(name = "STOCK_CODE", unique = true, nullable = false, length = 10)
 	public String getStockCode() {
 		return this.stockCode;
 	}
@@ -61,7 +70,6 @@ public class Stock implements java.io.Serializable {
 		this.stockCode = stockCode;
 	}
 
-	@Column(name = "STOCK_NAME", unique = true, nullable = false, length = 20)
 	public String getStockName() {
 		return this.stockName;
 	}
@@ -70,11 +78,6 @@ public class Stock implements java.io.Serializable {
 		this.stockName = stockName;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "stock_category", joinColumns = { 
-			@JoinColumn(name = "STOCK_ID", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID", 
-					nullable = false, updatable = false) })
 	public Set<Category> getCategories() {
 		return this.categories;
 	}

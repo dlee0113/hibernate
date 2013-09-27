@@ -15,9 +15,18 @@ import javax.persistence.Table;
 @Table(name = "category")
 public class Category implements java.io.Serializable {
 
+	@Id
+//	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "CATEGORY_ID", unique = true, nullable = false)
 	private Integer categoryId;
+	
+	@Column(name = "NAME", nullable = false, length = 10)	
 	private String name;
+	
+	@Column(name = "DESCRIPTION", nullable = false)	
 	private String desc;
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")	
 	private Set<Stock> stocks = new HashSet<Stock>(0);
 
 	public Category() {
@@ -35,9 +44,6 @@ public class Category implements java.io.Serializable {
 		this.stocks = stocks;
 	}
 
-	@Id
-//	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "CATEGORY_ID", unique = true, nullable = false)
 	public Integer getCategoryId() {
 		return this.categoryId;
 	}
@@ -46,7 +52,6 @@ public class Category implements java.io.Serializable {
 		this.categoryId = categoryId;
 	}
 
-	@Column(name = "NAME", nullable = false, length = 10)
 	public String getName() {
 		return this.name;
 	}
@@ -55,7 +60,6 @@ public class Category implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "DESCRIPTION", nullable = false)
 	public String getDesc() {
 		return this.desc;
 	}
@@ -64,7 +68,6 @@ public class Category implements java.io.Serializable {
 		this.desc = desc;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
 	public Set<Stock> getStocks() {
 		return this.stocks;
 	}
